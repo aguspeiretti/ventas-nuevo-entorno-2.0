@@ -555,43 +555,6 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
                   </div>
                 )}
 
-                {mostrarTipoTrabajoFacturarESP && (
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-4">
-                      Tipo de trabajo a facturar
-                    </label>
-                    {opcionesTipoTrabajoFacturarESP.length > 0 ? (
-                      <select
-                        value={tipoTrabajoFacturarESP}
-                        onChange={(e) =>
-                          setTipoTrabajoFacturarESP(
-                            e.target.value === "-None-" ? "" : e.target.value,
-                          )
-                        }
-                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                      >
-                        <option value="">Seleccionar...</option>
-                        {opcionesTipoTrabajoFacturarESP
-                          .filter((option) => option.display_value !== "-None-")
-                          .map((option, index) => (
-                            <option key={index} value={option.display_value}>
-                              {option.display_value}
-                            </option>
-                          ))}
-                      </select>
-                    ) : (
-                      <input
-                        type="text"
-                        value={tipoTrabajoFacturarESP}
-                        onChange={(e) =>
-                          setTipoTrabajoFacturarESP(e.target.value)
-                        }
-                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    )}
-                  </div>
-                )}
-
                 {moneda && moneda !== "USD" ? null : (
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-gray-700 mb-4">
@@ -689,6 +652,43 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
                     ))}
                   </select>
                 </div>
+
+                {mostrarTipoTrabajoFacturarESP && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-4">
+                      Tipo de trabajo a facturar
+                    </label>
+                    {opcionesTipoTrabajoFacturarESP.length > 0 ? (
+                      <select
+                        value={tipoTrabajoFacturarESP}
+                        onChange={(e) =>
+                          setTipoTrabajoFacturarESP(
+                            e.target.value === "-None-" ? "" : e.target.value,
+                          )
+                        }
+                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="">Seleccionar...</option>
+                        {opcionesTipoTrabajoFacturarESP
+                          .filter((option) => option.display_value !== "-None-")
+                          .map((option, index) => (
+                            <option key={index} value={option.display_value}>
+                              {option.display_value}
+                            </option>
+                          ))}
+                      </select>
+                    ) : (
+                      <input
+                        type="text"
+                        value={tipoTrabajoFacturarESP}
+                        onChange={(e) =>
+                          setTipoTrabajoFacturarESP(e.target.value)
+                        }
+                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </form>
