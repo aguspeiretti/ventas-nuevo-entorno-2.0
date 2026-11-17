@@ -182,9 +182,17 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
     "ConsejosUniversitarios",
     "Programaciones Didácticas",
   ];
-  const mostrarTipoTrabajoFacturarESP = WEB_ORIGEN_ESPANA.includes(
-    (newDatos?.Web_Origen || "").trim(),
-  );
+  // "País de procedencia" se busca por etiqueta para no depender de su nombre de API
+  const apiPaisProcedencia = dealFields.find(
+    (f) => (f.field_label || "").trim() === "País de procedencia",
+  )?.api_name;
+  const paisProcedencia = String(
+    (apiPaisProcedencia && newDatos?.[apiPaisProcedencia]) || "",
+  ).trim();
+  // Si el país está cargado manda el país; si está vacío se usa la web de origen
+  const mostrarTipoTrabajoFacturarESP = paisProcedencia
+    ? paisProcedencia === "España"
+    : WEB_ORIGEN_ESPANA.includes((newDatos?.Web_Origen || "").trim());
 
   useEffect(() => {
     setFormData({
