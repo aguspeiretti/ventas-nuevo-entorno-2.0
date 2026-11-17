@@ -12,6 +12,8 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
   const [moneda, setMoneda] = useState("");
   const [dtsUsuario, setDtsUsuario] = useState("");
   const [fields, setFields] = useState([]);
+  const [dealFields, setDealFields] = useState([]);
+  const [tipoTrabajoFacturarESP, setTipoTrabajoFacturarESP] = useState("");
   const [comentarioAdicional1erPago, setComentarioAdicional1erPago] =
     useState("");
   const [
@@ -84,6 +86,9 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
       setComentarioAdicional1erPagoLength(
         (newDatos.Comentarios_1er_Pago_LATAM_Extendido || "").length,
       );
+      setTipoTrabajoFacturarESP(
+        newDatos.Tipo_de_trabajo_a_facturar_ESP || "",
+      );
 
       const getValidValue = (...values) =>
         values.find((value) => value?.trim()) || "";
@@ -150,6 +155,37 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
     Comentarios_1er_Pago_LATAM_Extendido: "",
   });
 
+  const WEB_ORIGEN_ESPANA = [
+    "ComoCitar",
+    "Cursos",
+    "Custom Sneaker",
+    "ProfeConClaseEs",
+    "ADEYDERECHO",
+    "TusOpos",
+    "PlagiumChecker",
+    "Tu Prog Didáctica",
+    "TU",
+    "TUTFM",
+    "Quiero mi TFG",
+    "TFGES",
+    "TFGON",
+    "TesisESP",
+    "Plagio",
+    "Academikast",
+    "TFGTFM.es",
+    "TuTFGCom",
+    "TuTesis",
+    "Otro país",
+    "Landing TU",
+    "TFGComprar",
+    "Blog",
+    "ConsejosUniversitarios",
+    "Programaciones Didácticas",
+  ];
+  const mostrarTipoTrabajoFacturarESP = WEB_ORIGEN_ESPANA.includes(
+    (newDatos?.Web_Origen || "").trim(),
+  );
+
   useEffect(() => {
     setFormData({
       ...formData,
@@ -164,8 +200,16 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
       Cotizacion_USD_EUR: formFields.valorDolar,
       Tipo_de_persona: formFields.tipoDePersona,
       Comentarios_1er_Pago_LATAM_Extendido: comentarioAdicional1erPago,
+      ...(mostrarTipoTrabajoFacturarESP && {
+        Tipo_de_trabajo_a_facturar_ESP: tipoTrabajoFacturarESP,
+      }),
     });
-  }, [formFields, comentarioAdicional1erPago]);
+  }, [
+    formFields,
+    comentarioAdicional1erPago,
+    tipoTrabajoFacturarESP,
+    mostrarTipoTrabajoFacturarESP,
+  ]);
 
   const config = {
     Entity: "Deals",
@@ -344,9 +388,16 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
   };
 
   const tipo = getFieldValues(fields, "Tipo_de_persona");
+  const opcionesTipoTrabajoFacturarESP = getFieldValues(
+    dealFields,
+    "Tipo_de_trabajo_a_facturar_ESP",
+  );
 
   useEffect(() => {
     getFields();
+    window.ZOHO.CRM.META.getFields({ Entity: "Deals" })
+      .then((response) => setDealFields(response.fields || []))
+      .catch((error) => console.error(error));
   }, []);
 
   const WEB_ORIGEN_TYM = [
@@ -501,6 +552,43 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
                       Caracteres restantes:{" "}
                       {1900 - comentarioAdicional1erPagoLength}
                     </span>
+                  </div>
+                )}
+
+                {mostrarTipoTrabajoFacturarESP && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-4">
+                      Tipo de trabajo a facturar
+                    </label>
+                    {opcionesTipoTrabajoFacturarESP.length > 0 ? (
+                      <select
+                        value={tipoTrabajoFacturarESP}
+                        onChange={(e) =>
+                          setTipoTrabajoFacturarESP(
+                            e.target.value === "-None-" ? "" : e.target.value,
+                          )
+                        }
+                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      >
+                        <option value="">Seleccionar...</option>
+                        {opcionesTipoTrabajoFacturarESP
+                          .filter((option) => option.display_value !== "-None-")
+                          .map((option, index) => (
+                            <option key={index} value={option.display_value}>
+                              {option.display_value}
+                            </option>
+                          ))}
+                      </select>
+                    ) : (
+                      <input
+                        type="text"
+                        value={tipoTrabajoFacturarESP}
+                        onChange={(e) =>
+                          setTipoTrabajoFacturarESP(e.target.value)
+                        }
+                        className="w-full rounded-md border-2 border-gray-200 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    )}
                   </div>
                 )}
 
