@@ -335,6 +335,17 @@ const FormPresupuesto = ({ registerID, onContinue, dts, onReturn }) => {
       return;
     }
 
+    if (mostrarTipoTrabajoFacturarESP && !tipoTrabajoFacturarESP) {
+      Swal.fire({
+        title: "Complete Tipo de trabajo a facturar",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        position: "center",
+      });
+      return;
+    }
+
     const requiredFields = [
       { value: formFields.primerPago, name: "Primer Pago" },
       { value: formFields.dni, name: "DNI/CIF" },
