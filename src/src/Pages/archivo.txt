@@ -1,0 +1,388 @@
+return (
+    <div className="expansor-cerrado">
+      <div className="btns-container">
+        <ul>
+          <li onClick={backTo} className="btns-guardado" type="submit">
+            Volver
+          </li>
+          {tratoTildado ? (
+            <button
+              onClick={handleSubmitRedirect}
+              className={`btns-guardado ${isDisabled ? "disabled" : ""}`}
+              type="submit"
+              disabled={isDisabled}
+              style={{
+                opacity: isDisabled ? 0.5 : 1,
+              }}
+            >
+              Guardar y Continuar
+            </button>
+          ) : (
+            <button
+              onClick={handleSave}
+              className={`btns-guardado ${
+                loading || isDisabled ? "disabled" : ""
+              }`}
+              type="submit"
+              disabled={loading || isDisabled}
+              style={{
+                opacity: loading || isDisabled ? 0.5 : 1,
+              }}
+            >
+              {loading ? "Espere..." : "Enviar"}
+            </button>
+          )}
+        </ul>
+      </div>
+      <h2 className="title-cerrado">Cerrado nuevas pautas</h2>
+      <div className="cont-campos">
+        <form className="form-trato-pautas">
+          <div className="form-cont ">
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="fechasEspecificas">
+                ¿Tiene fechas específicas?
+              </label>
+              <select
+                id="fechasEspecificas"
+                value={fechasEspecificas}
+                onChange={handleFechasEspecificasChange}
+                required
+              >
+                {fechas.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {fechasEspecificas === "Sí" && (
+              <div className="slot">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="cualesFechasEspecificas">
+                  Comentario fechas especificas
+                </label>
+                <input
+                  type="text"
+                  id="cualesFechasEspecificas"
+                  value={especificas}
+                  maxLength={200}
+                  onChange={(e) => setEspecificas(e.target.value)}
+                  required={fechasEspecificas === "si"}
+                />
+              </div>
+            )}
+            {fechasEspecificas === "Sí" && (
+              <div className="slot">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="cualesFechasEspecificas">
+                  Fecha específica mas proxima
+                </label>
+                <input
+                  type="date"
+                  id="fechaMasProxioma"
+                  value={fechaMasProxioma}
+                  onChange={(e) => setFechaMasProxima(e.target.value)}
+                  required={fechaMasProxioma === "si"}
+                />
+              </div>
+            )}
+
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="algoHecho">¿Tiene algo hecho el cliente?</label>
+              <select
+                id="algoHecho"
+                value={algoHecho}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setAlgoHecho(value);
+                }}
+                required
+              >
+                {algo.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="algoValidado">¿Tiene algo validado?</label>
+              <select
+                id="algoValidado"
+                value={algoValidado}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setAlgoValidado(value);
+                }}
+                required
+              >
+                {validado.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="referenciatieneIndice">
+                ¿Cuántas páginas aporta el cliente?
+              </label>
+              <input
+                type="number"
+                id="fechaContratacion"
+                value={cuantasPaginas}
+                onWheel={(e) => e.target.blur()}
+                onChange={(e) => setCuantasPaginas(e.target.value)}
+                required
+              />
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="aplicarCorrecciones">
+                ¿Hay que aplicar correcciones?
+              </label>
+              <select
+                id="aplicarCorrecciones"
+                value={aplicarCorrecciones}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setAplicarCorrecciones(value);
+                }}
+                required
+              >
+                {aplicarCorreccion.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="paginaCorrecciones">
+                ¿Cuántas páginas son de correcciones?
+              </label>
+              <input
+                type="number"
+                id="fechaContratacion"
+                value={paginaCorrecciones}
+                onWheel={(e) => e.target.blur()}
+                onChange={(e) => setPaginaCorrecciones(e.target.value)}
+                required
+              />
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="porcentajeCorrecciones">
+                ¿Cuántas páginas son nuevas?
+              </label>
+              <input
+                type="number"
+                onWheel={(e) => e.target.blur()}
+                id="porcentajeCorrecciones"
+                value={paginasNuevas}
+                onChange={(e) => setPaginasNuevas(e.target.value)}
+                required
+              />
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="porcentajeDePlagio">
+                ¿Porcentaje de plagio de lo que tenga hecho?
+              </label>
+              <input
+                type="number"
+                id="porcentajeDePlagio"
+                onWheel={(e) => e.target.blur()}
+                value={porcentajeDePlagio}
+                onChange={(e) => setPorcentajeDePlagio(e.target.value)}
+                required
+              />
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="habladoSobre">
+                ¿Has hablado con el cliente sobre la cantidad de entregas?
+              </label>
+              <select
+                id="habladoSobre"
+                value={habladoSobre}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setHabladoSobre(value);
+                }}
+                required
+              >
+                {hablado.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="acuerdoPagos">
+                ¿Qué has acordado sobre las entregas ?
+              </label>
+              <input
+                type="text"
+                id="acuerdoPagos"
+                value={acuerdoPagos}
+                onChange={(e) => setAcuerdoPagos(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="cantidadDeAdjuntos">Cantidad de adjuntos</label>
+              <input
+                type="number"
+                onWheel={(e) => e.target.blur()}
+                id="fechaContratacion"
+                value={cantidadDeAdjuntos}
+                onChange={(e) => setCantidadDeAdjuntos(e.target.value)}
+                required
+              />
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="informacionAportada">
+                ¿Debe el cliente enviar mas informacion?
+              </label>
+              <select
+                id="informacionAportada"
+                value={informacionAportada}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setInformacionAportada(value);
+                }}
+                required
+              >
+                {aportado.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="tipoDeTrabajo">Tipo de trabajo np</label>
+              <select
+                id="tipoDeTrabajo"
+                value={tipoDeTrabajo}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setTipoDeTrabajo(value);
+                  setNpOtros("");
+                }}
+                required
+              >
+                {trabajonp.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {tipoDeTrabajo === "Otros" && (
+              <div className="slot">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="npOtros">
+                  Especifique Otro tipo de trabajo
+                </label>
+                <input
+                  type="text"
+                  id="npOtros"
+                  value={npOtros}
+                  onChange={(e) => setNpOtros(e.target.value)}
+                  required={npOtros === "si"}
+                />
+              </div>
+            )}
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="trabajoDeCampo">¿Tiene trabajo de campo?</label>
+              <select
+                id="trabajoDeCampo"
+                value={trabajoDeCampo}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setTrabajoDeCampo(value);
+                }}
+                required
+              >
+                {tcampo.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="tipoDeInvestigacion">
+                Tipo de trabajo de campo:
+              </label>
+              <select
+                id="tipoDeInvestigacion"
+                value={tipoDeInvestigacion}
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "-None-" ? "" : e.target.value;
+                  setTipoDeInvestigacion(value);
+                }}
+                required
+              >
+                {investigacionnp.map((tipo, index) => (
+                  <option key={index} value={tipo.display_value}>
+                    {tipo.display_value}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="slot">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="tieneIndice">
+                El cliente tiene un indice que debe seguirse?
+              </label>
+              <input
+                type="text"
+                id="tieneIndice"
+                value={tieneIndice}
+                onChange={(e) => setTieneIndice(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="slot text">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="comentarioCerrado">Comentarios Cliente</label>
+              <textarea
+                id="comentarioCLiente"
+                value={comentarioCLiente}
+                onChange={handleComentarioClienteChange}
+                required
+                maxLength={25000} // Limitar la cantidad máxima de caracteres
+                rows={Math.ceil(comentarioCerradoLength / 100)} // Calcular las filas en base a la longitud del comentario
+              />
+              <span>
+                Caracteres restantes: {25000 - comentarioClienteLength}
+              </span>
+            </div>
+            <div className="slot text">
+              <label className="block text-sm font-medium text-gray-700" htmlFor="comentarioCerrado">Comentario cerrado np</label>
+              <textarea
+                id="comentarioCerrado"
+                value={comentarioCerrado}
+                onChange={handleComentarioCerradoChange}
+                required
+                maxLength={1900} // Limitar la cantidad máxima de caracteres
+                rows={Math.ceil(comentarioCerradoLength / 100)} // Calcular las filas en base a la longitud del comentario
+              />
+              <span>
+                Caracteres restantes: {1900 - comentarioCerradoLength}
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default FormCerrado;

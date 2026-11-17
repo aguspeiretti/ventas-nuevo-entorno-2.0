@@ -1,0 +1,13 @@
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  padding: 0px 5px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+  background-color: white;
+  text-indent: 0%;
+}
